@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{8FFB629D-F513-41CE-95D2-7ECE97B6EEEC};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{B81E74EC-CF7A-4BCD-9DF7-16A92FE440DF}</ProjectGuid>
+    <TemplateGuid>{b6f3ff35-79b2-4f25-a2fc-60a7cf61013b}</TemplateGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>PCPersonalCloud</RootNamespace>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <AssemblyName>PersonalCloud.SPAlert</AssemblyName>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <PackageId>PCPersonalCloud.SPAlert</PackageId>
+    <PackageVersion>2.1.4.3</PackageVersion>
+    <Authors>Yi Ding</Authors>
+    <Description>Xamarin.iOS bindings for SPAlert. This package binds a Swift framework and requires Swift runtime libraries.</Description>
+    <Copyright>Copyright (C) Yi Ding, 2020</Copyright>
+    <Owners>Personal-Cloud, VaslD</Owners>
+    <Title>SPAlert for Xamarin</Title>
+    <RepositoryUrl>https://github.com/Personal-Cloud/SPAlert.git</RepositoryUrl>
+    <PackageOutputPath>bin\Package</PackageOutputPath>
+    <PackageProjectUrl>https://github.com/Personal-Cloud/SPAlert</PackageProjectUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingApiDefinition Include="ApiDefinitions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ObjcBindingCoreSource Include="StructsAndEnums.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <NativeReference Include="SPAlert.framework">
+      <Kind>Framework</Kind>
+      <LinkerFlags>-L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/ -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -Wl,-rpath -Wl,@executable_path/Frameworks</LinkerFlags>
+    </NativeReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Swift">
+      <Version>1.0.4</Version>
+    </PackageReference>
+    <PackageReference Include="NuGet.Build.Tasks.Pack">
+      <Version>5.7.0</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!--
+    Workaround/Hack: Remove this when the issue is resolved:
+    https://github.com/dotnet/msbuild/issues/4584
+  -->
+  <Target Name="_RemoveNativeReferencesManifest" AfterTargets="BuiltProjectOutputGroup">
+    <ItemGroup>
+      <_BuiltProjectOutputGroupOutputIntermediate Remove="$(OutDir)$(_DeploymentTargetApplicationManifestFileName)" />
+      <BuiltProjectOutputGroupOutput Remove="$(ProjectDir)$(OutDir)$(_DeploymentTargetApplicationManifestFileName)" />
+    </ItemGroup>
+  </Target>
+
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
+</Project>

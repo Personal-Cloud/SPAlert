@@ -1,0 +1,11 @@
+framework module SPAlert {
+  umbrella header "SPAlert.h"
+
+  export *
+  module * { export * }
+}
+
+module SPAlert.Swift {
+    header "SPAlert-Swift.h"
+    requires objc
+}
